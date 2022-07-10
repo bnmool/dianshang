@@ -18,6 +18,8 @@ module.exports = {
     'space-before-function-paren': 0, // 方法名和刮号之间不要空格
     quotes: [1, 'single'], // 引号类型 `` "" ''
     'comma-dangle': 'off',
+    // 'generator-star-spacing': 'off', //禁止空格报错检查
+    indent: 'off', // 禁止检查缩进
     'no-unused-vars': 'off'// vant loacl报错
   }
 }
