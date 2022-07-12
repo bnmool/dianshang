@@ -1,16 +1,6 @@
 <template>
-  <div id="app">
-    App
-    <router-view />
-  </div>
+  <!-- 一级路由 -->
+  <router-view />
 </template>
-
 <script>
-import request from '@/utils/request';
-export default {
-  name: 'App',
-};
 </script>
-
-<style lang="less" scoped>
-</style>
