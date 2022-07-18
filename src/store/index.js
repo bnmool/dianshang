@@ -2,7 +2,7 @@ import { createStore } from 'vuex';
 // vuex 持久化插件
 import createPersostedState from 'vuex-persistedstate';
 // axios
-import request from '../utils/request'
+import request from '../utils/request';
 
 // vue2.0 创建仓库 new Vuex.Store({})
 // vue3.0 创建仓库 createStore({})
