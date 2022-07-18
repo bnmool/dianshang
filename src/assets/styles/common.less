@@ -1,0 +1,178 @@
+// 重置样式
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 14px;
+    -webkit-text-size-adjust: none;
+    height: 100%;
+}
+
+body {
+    font-family: 微软雅黑;
+    font-size: 0rem;
+    min-width: 1240px;
+    font: 1em/1.4 'Microsoft Yahei', 'PingFang SC', 'Avenir', 'Segoe UI', 'Hiragino Sans GB', 'STHeiti', 'Microsoft Sans Serif', 'WenQuanYi Micro Hei', sans-serif;
+    height: 100%;
+    color: #333;
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+    background: transparent;
+    border: 0;
+    margin: 0 auto;
+    padding: 0;
+    list-style-type: none;
+}
+
+
+input[type="text"],
+input[type="search"],
+input[type="password"],
+input[type="checkbox"] {
+    padding: 0;
+    outline: none;
+    border: none;
+    -webkit-appearance: none;
+
+    &::placeholder {
+        color: #ccc;
+    }
+}
+
+img {
+    width: 100%;
+    vertical-align: middle;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+li,
+ul,
+ol {
+    list-style: none;
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+    border: none;
+    display: block;
+    cursor: pointer;
+}
+
+i,
+em {
+    font-style: normal;
+}
+
+.pr {
+    position: relative;
+}
+
+#app {
+    background: #f3f5f8;
+    user-select: none;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.ellipsis-2 {
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.clearfix-2:before,
+.clearfix-2::after {
+    content: "";
+    display: block;
+    visibility: hidden;
+    height: 0;
+    line-height: 0;
+    clear: both;
+}

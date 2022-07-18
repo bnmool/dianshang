@@ -1,21 +1,28 @@
 <template>
   <!-- 顶部通栏 -->
-  <nav>top</nav>
+  <AppTopnav>top</AppTopnav>
   <!-- 头部组件 -->
-  <header>head</header>
+  <AppHeader>header</AppHeader>
   <!-- 内容容器 -->
-  <div class="main">
+  <div class="app-body">
     <!-- 二级路由 -->
     <router-view />
   </div>
   <!-- 底部组件 -->
-  <footer>footer</footer>
+  <AppFooter>footer</AppFooter>
 </template>
 <script>
+import AppTopnav from '@/components/app-navbar';
+import AppHeader from '@/components/app-header';
+import AppFooter from '@/components/app-footer';
 export default {
   name: 'LayOut',
+  components: { AppTopnav, AppHeader, AppFooter },
 };
 </script>
 
 <style lang="less" scoped>
+.app-body {
+  min-height: 37.5rem;
+}
 </style>
