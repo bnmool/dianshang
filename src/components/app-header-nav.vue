@@ -1,36 +1,52 @@
 <template>
   <ul class="app-header-nav">
     <li class="home"><RouterLink to="/">首页</RouterLink></li>
-    <li>
-      <a href="#">美食</a>
-      <div class="layer">
+    <li
+      v-for="item in list"
+      :key="item.id"
+      @mousemove="show(item)"
+      @mouseleave="hide(item)"
+    >
+      <RouterLink @click="hide(item)" :to="`/category/${item.id}`">{{
+        item.name
+      }}</RouterLink>
+      <div class="layer" :class="{ open: item.open }">
         <ul>
-          <li v-for="i in 10" :key="i">
-            <a href="#">
-              <img
-                src="http://zhoushugang.gitee.io/erabbit-client-pc-static/uploads/img/category%20(4).png"
-                alt=""
-              />
-              <p>果干</p>
-            </a>
+          <li v-for="sub in item.children" :key="sub.id">
+            <RouterLink @click="hide(item)" :to="`/category/sub/${sub.id}`">
+              <img :src="sub.picture" alt="" />
+              <p>{{ sub.name }}</p>
+            </RouterLink>
           </li>
         </ul>
       </div>
     </li>
-    <li><a href="#">餐厨</a></li>
-    <li><a href="#">艺术</a></li>
-    <li><a href="#">电器</a></li>
-    <li><a href="#">居家</a></li>
-    <li><a href="#">洗护</a></li>
-    <li><a href="#">孕婴</a></li>
-    <li><a href="#">服装</a></li>
-    <li><a href="#">杂货</a></li>
   </ul>
 </template>
 
 <script>
+import { useStore } from 'vuex';
+import { computed } from 'vue';
 export default {
   name: 'AppHeaderNav',
+  setup() {
+    const store = useStore();
+    // 拿到 vuex 中的 分类数据
+    const list = computed(() => {
+      return store.state.category.list;
+    });
+    // 跳转的时候不会关闭二级类目，通过数据来控制
+    // 1. vuex每个分类加上open数据
+    // 2. vuex提供显示和隐藏函数，修改open数据
+    // 3. 组件中使用vuex中的函数，使用时间来绑定，提供一个类名显示隐藏的类名
+    const show = (item) => {
+      store.commit('category/show', item.id);
+    };
+    const hide = (item) => {
+      store.commit('category/hide', item.id);
+    };
+    return { list, show, hide };
+  },
 };
 </script>
 
@@ -40,11 +56,11 @@ export default {
   display: flex;
   justify-content: space-around;
   padding-left: 2.5rem;
+  position: relative;
   > li {
     margin-right: 2.5rem;
     width: 2.375rem;
     text-align: center;
-    position: relative;
     > a {
       font-size: 1rem;
       line-height: 2rem;
@@ -56,10 +72,10 @@ export default {
       > a {
         color: @blueColor;
       }
-      > .layer {
-        height: 8.25rem;
-        opacity: 1;
-      }
+      // > .layer {
+      //   height: 8.25rem;
+      //   opacity: 1;
+      // }
     }
   }
 }
@@ -74,6 +90,10 @@ export default {
   opacity: 0;
   box-shadow: 0 0 0.3125rem #ccc;
   transition: all 0.2s 0.1s;
+  &.open {
+    height: 8.25rem;
+    opacity: 1;
+  }
   ul {
     display: flex;
     flex-wrap: wrap;
@@ -89,6 +109,7 @@ export default {
       }
       p {
         padding-top: 0.625rem;
+        color: #3c3c3c;
       }
       &:hover {
         p {

@@ -8,12 +8,13 @@ export const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/';
 const instance = axios.create({
     // axios 配置 baseURL timeout
     baseURL,
-    timeout: 3000
+    timeout: 5000
 });
 // 2. 请求拦截器 + token
 instance.interceptors.request.use(
     (config) => {
         // 获取信息对象
+        // const { profile } = store.state.user;
         const profile = store.state.user.profile;
         // 判断是否有 token
         if (profile.token) {
@@ -29,7 +30,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
     (res) => {
         // 1.取出 data 数据，将来调用接口的时候直接拿到的就是后台数据
-        return res.date;
+        return res.data;
     },
     (err) => {
         // 2. 401 登录无效
