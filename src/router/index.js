@@ -17,7 +17,6 @@ const routes = [
       },
       { path: '/category/:id', name: '', component: TopCategory },
       { path: '/category/sub/:id', name: '', component: SubCategory }
-
     ]
   }
 ]

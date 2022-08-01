@@ -3,4 +3,5 @@
   <router-view />
 </template>
 <script>
+console.log();
 </script>

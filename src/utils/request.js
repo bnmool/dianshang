@@ -3,7 +3,7 @@ import store from '@/store';
 // 导入路由
 import router from '@/router';
 // 定义基础请求地址
-export const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/';
+export const baseURL = 'https://apipc-xiaotuxian-front.itheima.net/';
 // 1. 创建 axios 实例
 const instance = axios.create({
     // axios 配置 baseURL timeout
