@@ -11,6 +11,4 @@ import '@/assets/styles/common.less';
 // 载入动画库
 import '@/assets/styles/animate.less'
 
-createApp(App).use(store).use(router).mount('#app');
-
 createApp(App).use(store).use(router).use(dianshangComponents).mount('#app');
