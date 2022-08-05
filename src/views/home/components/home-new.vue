@@ -1,10 +1,11 @@
 <template>
   <div class="home-new">
     <HomePanel title="新鲜好物" sub-title="新鲜出炉 品质靠谱">
-      <template><DianshangMore path="/" /></template>
+      <template #right><DianshangMore path="/"></DianshangMore>
+      </template>
       <div style="position: relative" ref="target">
         <Transition name="fade">
-          <ul v-if="goods.length" ref="pannel" class="goods-list">
+          <ul v-if="goods.length" class="goods-list">
             <li v-for="item in goods" :key="item.id">
               <RouterLink to="/">
                 <img :src="item.picture" alt="" />

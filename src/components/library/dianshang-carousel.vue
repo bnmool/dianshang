@@ -67,7 +67,6 @@ export default {
     },
   },
   setup(props) {
-    console.log(props);
     // 控制显示图片的索引
     const index = ref(0);
     // 自动播放
@@ -130,8 +129,8 @@ export default {
 </script>
 <style scoped lang="less">
 .dianshang-carousel {
-  width: 80rem;
-  height: 100%;
+  width: 77.5rem;
+  height: 32rem;
   min-width: 18.75rem;
   min-height: 9.375rem;
   position: relative;

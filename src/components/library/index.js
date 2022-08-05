@@ -1,19 +1,30 @@
 // vue2.0插件写法要素：导出一个对象，有install函数，默认传入了Vue构造函数，Vue基础之上扩展
 // vue3.0插件写法要素：导出一个对象，有install函数，默认传入了app应用实例，app基础之上扩展
 
-import dianshangSkeleton from './dianshang-skeleton';
-import dianshangCarousel from './dianshang-carousel';
-import dianshangMore from './dianshang-more';
-import defaultImg from '@/assets/images/200.png';
-
+// import DianshangSkeleton from './dianshang-skeleton';
+// import DianshangCarousel from './dianshang-carousel';
+// import DianshangMore from './dianshang-more';
+// import DianshangBread from "./dianshang-bread"
+// import DianshangBreadItem from "./dianshang-bread-item";
+import DefaultImg from '@/assets/images/200.png';
+const importFn = require.context('./', false, /\.vue$/)
 export default {
   install(app) {
     // 在app上进行扩展，app提供 component directive 函数
     // 如果要挂载原型 app.config.globalProperties 方式
     // 首页左侧分类未加载完毕时动画
-    app.component(dianshangSkeleton.name, dianshangSkeleton);
-    app.component(dianshangCarousel.name, dianshangCarousel);
-    app.component(dianshangMore.name, dianshangMore);
+    // app.component(DianshangSkeleton.name, DianshangSkeleton);
+    // app.component(DianshangCarousel.name, DianshangCarousel);
+    // app.component(DianshangMore.name, DianshangMore);
+    // app.component(DianshangBread.name, DianshangBread);
+    // app.component(DianshangBreadItem.name, DianshangBreadItem);
+    importFn.keys().forEach(key => {
+      // 导入组件
+      const component = importFn(key).default
+      // 注册组件
+      app.component(component.name, component);
+    })
+    // 自定义指令
     defineDirective(app);
   }
 }
@@ -35,7 +46,7 @@ const defineDirective = (app) => {
           // 4. 处理图片加载失败 error 图片加载失败的事件 load 图片加载成功
           el.onerror = () => {
             // 加载失败，设置默认图
-            el.src = defaultImg
+            el.src = DefaultImg
           }
           el.src = binding.value
         }

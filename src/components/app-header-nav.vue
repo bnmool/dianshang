@@ -90,6 +90,7 @@ export default {
   opacity: 0;
   box-shadow: 0 0 0.3125rem #ccc;
   transition: all 0.2s 0.1s;
+  z-index: 999;
   &.open {
     height: 8.25rem;
     opacity: 1;

@@ -1,8 +1,16 @@
 <template>
   <HomePanel title="人气推荐" sub-title="人气爆款 不容错过">
+    <template #right>
+      <!-- <DianshangBread>
+        <DianshangBreadItem to="/">首页</DianshangBreadItem>
+        <DianshangBreadItem to="/category/1005000">电器</DianshangBreadItem>
+        <DianshangBreadItem >空调</DianshangBreadItem>
+      </DianshangBread> -->
+      <DianshangMore path="/"></DianshangMore
+    ></template>
     <div style="position: relative" ref="target">
       <Transition name="fade">
-        <ul v-if="goods.length" ref="pannel" class="goods-list">
+        <ul v-if="goods.length" class="goods-list">
           <li v-for="item in goods" :key="item.id">
             <RouterLink to="/">
               <img :src="item.picture" alt="" />
