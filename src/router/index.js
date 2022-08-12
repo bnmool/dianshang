@@ -5,6 +5,7 @@ import store from '@/store'
 
 import TopCategory from '@/views/category';
 import SubCategory from '@/views/category/sub';
+import Goods from '@/views/goods'
 const routes = [
   // 一级路由
   {
@@ -17,7 +18,8 @@ const routes = [
         component: Home
       },
       { path: '/category/:id', name: '', component: TopCategory },
-      { path: '/category/sub/:id', name: '', component: SubCategory }
+      { path: '/category/sub/:id', name: '', component: SubCategory },
+      { path: '/product/:id', name: '', component: Goods }
     ]
   }
 ]

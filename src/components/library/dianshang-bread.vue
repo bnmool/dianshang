@@ -48,7 +48,6 @@ export default {
   display: flex;
   margin: 0;
   width: 10rem;
-  margin-left: 20.5%;
   padding: 1.5625rem 0.625rem;
   &-item {
     a {

@@ -17,7 +17,7 @@
         <h3>全部分类</h3>
         <ul>
           <li v-for="sub in topCategory.children" :key="sub.id">
-            <RouterLink  :to="`/category/sub/${sub.id}`">
+            <RouterLink :to="`/category/sub/${sub.id}`">
               <img :src="sub.picture" />
               <p>{{ sub.name }}</p>
             </RouterLink>
@@ -96,38 +96,43 @@ export default {
 </script>
 <style scoped lang="less">
 .top-category {
-  h3 {
-    font-size: 1.75rem;
-    color: #666;
-    font-weight: normal;
-    text-align: center;
-    line-height: 6.25rem;
-  }
-  .sub-list {
-    width: 77.5rem;
-    margin-top: 1.25rem;
-    background-color: #fff;
-    ul {
-      display: flex;
-      padding: 0 2rem;
-      flex-wrap: wrap;
-      li {
-        width: 10.5rem;
-        height: 13rem;
-        a {
-          color: #333;
-          text-align: center;
-          display: block;
-          font-size: 1rem;
-          img {
-            width: 6.25rem;
-            height: 6.25rem;
-          }
-          p {
-            line-height: 2.5rem;
-          }
-          &:hover {
-            color: @blueColor;
+  .container {
+    .dianshang-bread{
+      margin-left: 28rem;
+    }
+    h3 {
+      font-size: 1.75rem;
+      color: #666;
+      font-weight: normal;
+      text-align: center;
+      line-height: 6.25rem;
+    }
+    .sub-list {
+      width: 77.5rem;
+      margin-top: 1.25rem;
+      background-color: #fff;
+      ul {
+        display: flex;
+        padding: 0 2rem;
+        flex-wrap: wrap;
+        li {
+          width: 10.5rem;
+          height: 13rem;
+          a {
+            color: #333;
+            text-align: center;
+            display: block;
+            font-size: 1rem;
+            img {
+              width: 6.25rem;
+              height: 6.25rem;
+            }
+            p {
+              line-height: 2.5rem;
+            }
+            &:hover {
+              color: @blueColor;
+            }
           }
         }
       }
