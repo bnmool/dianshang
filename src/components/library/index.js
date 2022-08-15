@@ -7,6 +7,7 @@
 // import DianshangBread from "./dianshang-bread"
 // import DianshangBreadItem from "./dianshang-bread-item";
 import DefaultImg from '@/assets/images/200.png';
+import Message from './Message';
 const importFn = require.context('./', false, /\.vue$/)
 export default {
   install(app) {
@@ -26,6 +27,9 @@ export default {
     })
     // 自定义指令
     defineDirective(app);
+    // 如果你想挂载全局的属性，能够通过组件实例调用的属性 this.$message
+    // 原型函数
+    app.config.globalProperties.$message = Message;
   }
 }
 
