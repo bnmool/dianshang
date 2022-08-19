@@ -7,6 +7,7 @@ import TopCategory from '@/views/category';
 import SubCategory from '@/views/category/sub';
 import Goods from '@/views/goods'
 import Login from '@/views/login'
+import LoginCallback from '@/views/login/callback'
 const routes = [
   // 一级路由
   {
@@ -24,11 +25,8 @@ const routes = [
       { path: '/product/:id', name: '', component: Goods }
     ]
   },
-  {
-    path: '/login',
-    component: Login,
-    name: '',
-  }
+  { path: '/login', component: Login, name: '' },
+  { path: '/login/callback', component: LoginCallback, name: '' }
 ]
 
 // vue2.0 new VueRouter({}) 创建路由实例

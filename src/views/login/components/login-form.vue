@@ -74,7 +74,9 @@
               type="password"
               placeholder="请输入验证码"
             />
-            <span class="code">发送验证码</span>
+            <span @click="send" class="code">{{
+              time === 0 ? "发送验证码" : `${time}秒后发送`
+            }}</span>
           </div>
           <div class="error" v-if="errors.code">
             <i class="iconfont icon-warning" />
@@ -98,10 +100,16 @@
       <a href="javascript:;" class="btn" @click="login()">登录</a>
     </Form>
     <div class="action">
-      <img
-        src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
-        alt=""
-      />
+      <a
+        class="qqLoginBtn"
+        href="https://graph.qq.com/oauth2.0/authorize?client_id=100556005&response_type=token&scope=all&redirect_uri=http%3A%2F%2Fwww.corho.com%3A8080%2F%23%2Flogin%2Fcallback"
+      >
+        <img
+          src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
+          alt=""
+        />
+      </a>
+      <!-- <span id="qqLoginBtn"></span> -->
       <div class="url">
         <a href="javascript:;">忘记密码</a>
         <a href="javascript:;">免费注册</a>
@@ -110,10 +118,19 @@
   </div>
 </template>
 <script>
-import { reactive, ref, watch } from 'vue';
+import { onUnmounted, reactive, ref, watch } from 'vue';
 import { Form, Field } from 'vee-validate';
 import Schema from '@/utils/vee-validate-schema';
 import Message from '@/components/library/Message';
+import { useStore } from 'vuex';
+import { useIntervalFn } from '@vueuse/core';
+import {
+  userAccountLogin,
+  userMobileLogin,
+  userMobileLoginMsg,
+} from '@/api/user';
+import { useRoute, useRouter } from 'vue-router';
+// import QC from "qc";
 export default {
   name: 'LoginForm',
   components: { Form, Field },
@@ -140,6 +157,7 @@ export default {
       isAgree: Schema.isAgree,
     };
     // 监听isMsgLogin重置表单（数据+清除校验结果）
+    // formCom 绑定表单数据
     const formCom = ref(null);
     watch(isMsgLogin, () => {
       // 重置数据
@@ -154,14 +172,147 @@ export default {
     // setup中获取组件实例 proxy
     // const { proxy } = getCurrentInstance()
     // proxy.$message({ text: '111' })
+    const store = useStore();
+    const route = useRoute();
+    const router = useRouter();
     const login = async () => {
       // Form组件提供了一个 validate 函数作为整体表单校验，返回的是一个promise
       const valid = await formCom.value.validate();
-      Message({ type: 'error', text: '登陆失败' });
-      // proxy.$message({ text: "1231", type: "error" });
-      console.log(valid);
+      // Message({ type: 'error', text: '登陆失败' });
+      // // proxy.$message({ text: "1231", type: "error" });
+      // Form 表单校验会同时校验 账号密码，手机号验证码，协议同意，因为账号密码登录和手机号登录同时校验所以总会返回 false 所以就需要分开校验
+      // 表单校验错误信息
+      // const validErrors = valid.errors;
+      // console.log(validErrors);
+      // if (
+      // (!validErrors.account &&
+      //   !validErrors.password &&
+      //   validErrors.mobile &&
+      //   validErrors.code) ||
+      // (validErrors.account &&
+      //   validErrors.password &&
+      //   !validErrors.mobile &&
+      //   !validErrors.code)
+      // ) {
+      // }
+      if (valid) {
+        try {
+          let data = null;
+          if (isMsgLogin.value) {
+            // **手机号登录
+            // 2.1. 准备一个API做手机号登录
+            // 2.2. 调用API函数
+            // 2.3. 成功：存储用户信息 + 跳转至来源页或者首页 + 消息提示
+            // 2.4. 失败：消息提示
+            const { mobile, code } = form;
+            data = await userMobileLogin({ mobile, code });
+          } else {
+            // **帐号登录
+            // 1. 准备一个API做帐号登录
+            // 2. 调用API函数
+            // 3. 成功：存储用户信息 + 跳转至来源页或者首页 + 消息提示
+            // 4. 失败：消息提示
+            // const { account, password } = form;
+            // userAccountLogin({ account, password })
+            //   .then((data) => {
+            //     // 本地储存 user 用户信息
+            //     const { id, account, avatar, mobile, nickname, token } = data.result;
+            //     store.commit("user/setUser", {
+            //       id,
+            //       account,
+            //       avatar,
+            //       mobile,
+            //       nickname,
+            //       token,
+            //     });
+            //     // 进行跳转
+            //     router.push(route.query.redirectUrl || "/");
+            //     // 成功消息提示
+            //     Message({ type: "success", text: "登录成功" });
+            //   })
+            //   .catch((e) => {
+            //     // 失败提示
+            //     if (e.response.data) {
+            //       Message({
+            //         type: "error",
+            //         text: e.response.data.message || "登录失败",
+            //       });
+            //     }
+            //   });
+            const { account, password } = form;
+            data = await userAccountLogin({ account, password });
+          }
+          // 本地储存 user 用户信息
+          const { id, account, avatar, mobile, nickname, token } = data.result;
+          store.commit('user/setUser', {
+            id,
+            account,
+            avatar,
+            mobile,
+            nickname,
+            token,
+          });
+          // 进行跳转
+          router.push(route.query.redirectUrl || '/');
+          // 成功消息提示
+          Message({ type: 'success', text: '登录成功' });
+        } catch (e) {
+          // 失败提示
+          if (e.response.data) {
+            Message({
+              type: 'error',
+              text: e.response.data.message || '登录失败',
+            });
+          }
+        }
+      }
     };
-    return { isMsgLogin, form, mySchema, formCom, login };
+    // pause 暂停 resume 开始
+    // useIntervalFn(回调函数,执行间隔,是否立即开启)
+    const time = ref(0);
+    const { pause, resume } = useIntervalFn(
+      () => {
+        if (time.value > 0) {
+          time.value--;
+        }
+        if (time.value <= 0) {
+          pause();
+        }
+      },
+      1000,
+      false
+    );
+    onUnmounted(() => {
+      pause();
+    });
+    // 1. 发送验证码
+    // 1.1 验证码按钮绑定事件
+    // 1.2 校验手机号如果成功发送短信，请求成功 60s 倒计时，不可再次点击，倒计时结束后再次点击
+    // 1.3 如果失败，显示校验失败
+    const send = async () => {
+      const valid = mySchema.mobile(form.mobile);
+      if (valid === true) {
+        console.log(time.value);
+        // 通过
+        if (time.value === 0) {
+          // 没有倒计时才可以发送
+          await userMobileLoginMsg(form.mobile);
+          Message({ type: 'success', text: '发送成功' });
+          time.value = 60;
+          resume();
+        }
+      } else {
+        // 失败，使用vee的错误函数显示错误信息 setFieldError(字段,错误信息)
+        formCom.value.setFieldError('mobile', valid);
+      }
+    };
+    // 初始化 qq 登录按钮 （官方）
+    // 1. 准备span有id = qqLoginBtn
+    // 2. QC.Login({btnId:"qqLoginBtn"})
+    // onMounted(() => {
+    //   QC.Login({ btnId: "qqLoginBtn" });
+    // });
+    return { isMsgLogin, form, mySchema, formCom, login, send, time };
   },
 };
 </script>
@@ -263,8 +414,13 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    img {
+    // span {
+    //   width: 21%;
+    //   margin: 0;
+    // }
+    > .qqLoginBtn {
       width: 21%;
+      margin: 0;
     }
     .url {
       margin: 0;
