@@ -1,5 +1,4 @@
 // 用户相关的接口
-
 import request from '@/utils/request'
 
 /**
@@ -90,4 +89,9 @@ export const userQQPatchCode = (mobile) => {
  */
 export const userQQPatchLogin = ({ unionId, mobile, code, account, password }) => {
   return request(`/login/social/${unionId}/complement`, 'post', { unionId, mobile, code, account, password })
+}
+// 解除绑定手机号
+// https://mock.boxuegu.com/mock/1175/login/social/unbind
+export const userDelete = ({ mobile }) => {
+  return request('/login/social/unbind', 'get', { mobile })
 }

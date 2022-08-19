@@ -25,7 +25,7 @@
       <!-- 二维码 -->
       <div v-if="activeName === 'qrcode'" class="qrcode-box">
         <img src="@/assets/images/qrcode.jpg" alt="" />
-        <p>打开 <a href="javascript:;">小兔鲜App</a> 扫码登录</p>
+        <p>打开 <a href="javascript:;">App</a> 扫码登录</p>
       </div>
     </div>
   </section>
@@ -37,11 +37,17 @@ import LoginHeader from './components/login-header';
 import LoginFooter from './components/login-footer';
 import LoginForm from './components/login-form';
 import { ref } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 export default {
   name: 'PageLogin',
   components: { LoginHeader, LoginFooter, LoginForm },
   setup() {
     const activeName = ref('account');
+    // 存储回跳地址
+    const store = useStore();
+    const route = useRoute();
+    store.commit('user/setRedirectUrl', route.query.redirectUrl || '/');
     return { activeName };
   },
 };

@@ -2,6 +2,11 @@ const { defineConfig } = require('@vue/cli-service');
 const path = require('path')
 module.exports = defineConfig({
   transpileDependencies: true,
+  // 这个是给 webpack-dev-server开启可IP和域名访问权限。
+  devServer: {
+    historyApiFallback: true,
+    allowedHosts: 'all',
+  },
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'less',
@@ -12,6 +17,7 @@ module.exports = defineConfig({
     }
   },
   chainWebpack: config => {
+    // 图片加载
     if (process.env.NODE_ENV === 'production') {
       config.module
         .rule('images')

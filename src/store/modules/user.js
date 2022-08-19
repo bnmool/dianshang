@@ -20,6 +20,9 @@ export default {
         // 修改用户信息 payload 就是用户信息对象
         setUser(state, userDate) {
             state.profile = userDate;
+        },
+        setRedirectUrl(state, url) {
+            state.redirectUrl = url
         }
     }
 };
