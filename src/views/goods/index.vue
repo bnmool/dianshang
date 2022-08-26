@@ -69,6 +69,8 @@ import GoodsWarn from './components/goods-warn';
 import { nextTick, provide, ref, watch } from 'vue';
 import { findGoods } from '@/api/product';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+import Message from '@/components/library/Message';
 // 获取商品详情
 const useGoods = () => {
   const goods = ref(null);
@@ -105,18 +107,50 @@ export default {
   },
   setup() {
     const goods = useGoods();
+    const currSku = ref(null);
     const changeSku = (sku) => {
+      // 修改商品的现价原价库存信息
       if (sku) {
         goods.value.price = sku.price;
         goods.value.oldPrice = sku.oldPrice;
         goods.value.inventory = sku.inventory;
       }
+      // 记录选择后的sku，可能有数据，可能没有数据{}
+      currSku.value = sku;
     };
     // 提供goods数据给后代组件使用
     provide('goods', goods);
     // 选择的数量
     const num = ref(1);
-    return { goods, changeSku, num };
+    const store = useStore();
+    // 加入购物车
+    const insertCart = () => {
+      // 预定加入购物车字段必须和后端保持一致
+      // id skuId name attrsText picture price nowPrice selected stock count isEffective
+      if (currSku.value && currSku.value.skuId) {
+        const { skuId, specsText: attrsText, inventory: stock } = currSku.value;
+        const { id, name, price, mainPictures } = goods.value;
+        store.dispatch('cart/insertCart', {
+            skuId,
+            attrsText,
+            stock,
+            id,
+            name,
+            price,
+            nowPrice: price,
+            picture: mainPictures[0],
+            selected: true,
+            isEffective: true,
+            count: num.value,
+          })
+          .then(() => {
+            Message({ type: 'success', text: '加入购物车成功' });
+          });
+      } else {
+        Message({ text: '请选择完整规格' });
+      }
+    };
+    return { goods, changeSku, num, insertCart };
   },
 };
 </script>
@@ -125,7 +159,7 @@ export default {
 .Dianshang-goods-page {
   .container {
     .dianshang-bread {
-      width: 33rem;
+      width: 36rem;
       margin-left: 21%;
     }
     .goods-info {

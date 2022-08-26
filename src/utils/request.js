@@ -19,7 +19,7 @@ instance.interceptors.request.use(
         // 判断是否有 token
         if (profile.token) {
             // 如果本地有 token 就在头部携带
-            config.headers.Authorization = `Beare ${profile.token}`;
+            config.headers.Authorization = `Bearer ${profile.token}`;
         }
         return config;
     },

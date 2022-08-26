@@ -8,6 +8,7 @@ import SubCategory from '@/views/category/sub';
 import Goods from '@/views/goods'
 import Login from '@/views/login'
 import LoginCallback from '@/views/login/callback'
+import Cart from '@/views/cart';
 const routes = [
   // 一级路由
   {
@@ -15,14 +16,11 @@ const routes = [
     component: LayOut,
     // 二级路由
     children: [
-      {
-        path: '/',
-        name: '',
-        component: Home
-      },
+      { path: '/', name: '', component: Home },
       { path: '/category/:id', name: '', component: TopCategory },
       { path: '/category/sub/:id', name: '', component: SubCategory },
-      { path: '/product/:id', name: '', component: Goods }
+      { path: '/product/:id', name: '', component: Goods },
+      { path: '/cart', component: Cart },
     ]
   },
   { path: '/login', component: Login, name: '' },

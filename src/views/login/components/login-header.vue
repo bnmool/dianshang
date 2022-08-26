@@ -53,7 +53,7 @@ export default {
     color: @textColor;
     i {
       font-size: 14px;
-      color: @xtxColor;
+      color: @blueColor;
       letter-spacing: -5px;
     }
   }

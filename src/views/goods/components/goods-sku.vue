@@ -4,8 +4,19 @@
       <dt>{{ item.name }}</dt>
       <dd>
         <template v-for="val in item.values" :key="val.name">
-          <img :class="{selected:val.selected,disabled:val.disabled}" @click="changeSku(item,val)" v-if="val.picture" :src="val.picture" :title="val.name" >
-          <span :class="{selected:val.selected,disabled:val.disabled}" @click="changeSku(item,val)" v-else>{{val.name}}</span>
+          <img
+            :class="{ selected: val.selected, disabled: val.disabled }"
+            @click="changeSku(item, val)"
+            v-if="val.picture"
+            :src="val.picture"
+            :title="val.name"
+          />
+          <span
+            :class="{ selected: val.selected, disabled: val.disabled }"
+            @click="changeSku(item, val)"
+            v-else
+            >{{ val.name }}</span
+          >
         </template>
       </dd>
     </dl>
@@ -204,6 +215,7 @@ export default {
         height: 30px;
         line-height: 28px;
         padding: 0 20px;
+        margin-bottom: 10px;
         .sku-state-mixin ();
       }
     }

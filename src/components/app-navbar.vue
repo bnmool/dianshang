@@ -18,8 +18,9 @@
         <li><a href="javascript:;">会员中心</a></li>
         <li><a href="javascript:;">帮助中心</a></li>
         <li><a href="javascript:;">关于我们</a></li>
-        <li><a @click="submit">解除绑定</a></li>
-        <li><a @click="chakanxinxi">查看绑定手机号</a></li>
+        <template v-if="profile.token">
+          <li><a @click="chakanxinxi">查看绑定手机号</a></li>
+        </template>
         <li>
           <a @click="submit2" href="javascript:;"
             ><i class="iconfont icon-phone"></i>手机版</a
@@ -51,7 +52,10 @@ export default {
     // 2. 跳转到登录页面
     const router = useRouter();
     const logout = () => {
+      // 清空用户数据
       store.commit('user/setUser', {});
+      // 清空购物车
+      store.commit('cart/setCart', []);
       router.push('/login');
     };
     // 查看绑定信息
@@ -65,28 +69,14 @@ export default {
           userQQLogin(openId).then((data) => {
             // 登录成功：data.result 用户信息
             // 1. 存储用户信息
-            const { id, account, avatar, mobile, nickname, token } =
-              data.result;
+            const { mobile } = data.result;
             console.log(mobile);
-            store.commit('user/setUser', {
-              id,
-              account,
-              avatar,
-              mobile,
-              nickname,
-              token,
-            });
             Message({ type: 'success', text: `手机号:${mobile}` });
           });
         });
       }
     };
-    // 解除绑定
-    const submit2 = () => {
-      const mobile = '13666666666';
-      userDelete({ mobile });
-    };
-    return { profile, logout, submit2, chakanxinxi };
+    return { profile, logout, chakanxinxi };
   },
 };
 </script>
