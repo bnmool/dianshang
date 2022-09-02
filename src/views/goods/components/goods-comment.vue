@@ -163,6 +163,7 @@ export default {
     // 初始化或者筛选条件改变后，获取列表数据
     const commentList = ref([]);
     const total = ref(0);
+    console.log(reqParams);
     watch(
       reqParams,
       () => {
