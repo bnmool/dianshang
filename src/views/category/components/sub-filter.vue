@@ -5,11 +5,11 @@
       <div class="head">品牌：</div>
       <div class="body">
         <a
+          v-for="item in filterData.brands"
+          :key="item.id"
           @click="changeBrand(item.id)"
           :class="{ active: item.id === filterData.selectedBrand }"
           href="javascript:;"
-          v-for="item in filterData.brands"
-          :key="item.id"
           >{{ item.name }}</a
         >
       </div>

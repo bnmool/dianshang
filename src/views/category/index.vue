@@ -97,7 +97,7 @@ export default {
 <style scoped lang="less">
 .top-category {
   .container {
-    .dianshang-bread{
+    .dianshang-bread {
       margin-left: 28rem;
     }
     h3 {

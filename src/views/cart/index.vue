@@ -172,7 +172,9 @@
           共 {{ $store.getters["cart/validTotal"] }} 件商品，已选择
           {{ $store.getters["cart/selectedTotal"] }} 件，商品合计：
           <span class="red">¥{{ $store.getters["cart/selectedAmount"] }}</span>
-          <DianshangButton type="primary">下单结算</DianshangButton>
+          <DianshangButton @click="checkOut" type="primary"
+            >下单结算</DianshangButton
+          >
         </div>
       </div>
       <!-- 猜你喜欢 -->
@@ -186,6 +188,7 @@ import Message from '@/components/library/Message';
 import CartNone from '@/views/cart/components/cart-none';
 import CartSku from './components/cart-sku';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import Confirm from '@/components/library/Confirm';
 import DianshangNumbox from '@/components/library/dianshang-numbox.vue';
 export default {
@@ -229,6 +232,26 @@ export default {
     const updateCartSku = (oldSkuId, newSku) => {
       store.dispatch('cart/updateCartSku', { oldSkuId, newSku });
     };
+    // 结算
+    const router = useRouter();
+    const checkOut = () => {
+      // 1. 判断是否选中商品，且提示
+      if (store.getters['cart/selectedList'].length === 0) {
+        return Message({ text: '至少选中一件商品' });
+      }
+      // 如果登录直接跳转
+      if (store.state.user.profile.token) {
+        return router.push('/member/checkout');
+      }
+      // 2. 弹出确认框，提示：下单结算需要登录
+      // 未登录弹出确认框
+      // 3. 使用导航守卫，遇见需要登录的路由跳转，拦截到登录页面
+      Confirm({ text: '下单结算需要登录，确认现在去登录吗？' })
+        .then(() => {
+          router.push('/member/checkout');
+        })
+        .catch((e) => {});
+    };
     return {
       checkOne,
       checkAll,
@@ -236,6 +259,7 @@ export default {
       batchDeleteCart,
       updateCount,
       updateCartSku,
+      checkOut,
     };
   },
 };

@@ -182,6 +182,7 @@ export default {
     flex-wrap: wrap;
     padding: 10px;
     > span {
+      margin: 0;
       width: 130px;
       text-align: center;
       cursor: pointer;
